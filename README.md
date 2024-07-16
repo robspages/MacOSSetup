@@ -1,7 +1,7 @@
-Laptop
+MacOSSetup
 ======
 
-Laptop is a script to set up a macOS laptop for web and mobile development.
+MacOSSetup is a script to set up a macOS MacOSSetup for web and mobile development.
 
 It can be run multiple times on the same machine safely.
 It installs, upgrades, or skips packages
@@ -25,7 +25,7 @@ Install
 Download the script:
 
 ```sh
-curl --remote-name https://raw.githubusercontent.com/thoughtbot/laptop/main/mac
+curl --remote-name https://raw.githubusercontent.com/robspages/macossetup/main/mac
 ```
 
 Review the script (avoid running scripts you haven't read!):
@@ -37,13 +37,13 @@ less mac
 Execute the downloaded script:
 
 ```sh
-sh mac 2>&1 | tee ~/laptop.log
+sh mac 2>&1 | tee ~/MacOSSetup.log
 ```
 
 Optionally, review the log:
 
 ```sh
-less ~/laptop.log
+less ~/MacOSSetup.log
 ```
 
 Optionally, [install thoughtbot/dotfiles][dotfiles].
@@ -53,10 +53,10 @@ Optionally, [install thoughtbot/dotfiles][dotfiles].
 Debugging
 ---------
 
-Your last Laptop run will be saved to `~/laptop.log`.
+Your last MacOSSetup run will be saved to `~/MacOSSetup.log`.
 Read through it to see if you can debug the issue yourself.
 If not, copy the lines where the script failed into a
-[new GitHub Issue](https://github.com/thoughtbot/laptop/issues/new) for us.
+[new GitHub Issue](https://github.com/robspages/MacOSSetup/issues/new) for us.
 Or, attach the whole log file as an attachment.
 
 What it sets up
@@ -133,10 +133,10 @@ Databases:
 
 It should take less than 15 minutes to install (depends on your machine).
 
-Customize in `~/.laptop.local`
+Customize in `~/.MacOSSetup.local`
 ------------------------------
 
-Your `~/.laptop.local` is run at the end of the Laptop script.
+Your `~/.MacOSSetup.local` is run at the end of the MacOSSetup script.
 Put your customizations there.
 For example:
 
@@ -178,11 +178,11 @@ fi
 Write your customizations such that they can be run safely more than once.
 See the `mac` script for examples.
 
-Laptop functions such as `fancy_echo` and
+MacOSSetup functions such as `fancy_echo` and
 `gem_install_or_update`
-can be used in your `~/.laptop.local`.
+can be used in your `~/.MacOSSetup.local`.
 
-See the [wiki](https://github.com/thoughtbot/laptop/wiki)
+See the [wiki](https://github.com/thoughtbot/MacOSSetup/wiki)
 for more customization examples.
 
 Contributing
@@ -190,7 +190,7 @@ Contributing
 
 Thank you, [contributors]!
 
-[contributors]: https://github.com/thoughtbot/laptop/graphs/contributors
+[contributors]: https://github.com/thoughtbot/MacOSSetup/graphs/contributors
 
 By participating in this project,
 you agree to abide by the thoughtbot [code of conduct].
