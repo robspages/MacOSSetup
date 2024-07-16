@@ -135,10 +135,11 @@ brew "tmux"
 brew "vim"
 brew "watchman"
 brew "zsh"
+brew "gpg2"
 
 # Heroku
-brew "heroku/brew/heroku"
-brew "parity"
+# brew "heroku/brew/heroku"
+# brew "parity"
 
 # GitHub
 brew "gh"
@@ -156,59 +157,65 @@ brew "yarn"
 cask "gpg-suite-no-mail"
 
 # Databases
-brew "postgresql@14", restart_service: :changed
-brew "redis", restart_service: :changed
+# brew "postgresql@14", restart_service: :changed
+# brew "redis", restart_service: :changed
 EOF
 
-fancy_echo "Update heroku binary ..."
-brew unlink heroku
-brew link --force heroku
+# fancy_echo "Update heroku binary ..."
+# brew unlink heroku
+# brew link --force heroku
 
-fancy_echo "Configuring asdf version manager ..."
-if [ ! -d "$HOME/.asdf" ]; then
-  brew install asdf
-  append_to_zshrc "source $(brew --prefix asdf)/libexec/asdf.sh" 1
+fancy_echo "Configuring Ruby Version Manager (rvm)..."
+if [ ! -d "$HOME/.rvm" ]; then
+  gpg --keyserver keyserver.ubuntu.com --recv-keys 409B6B1796C275462A1703113804BB82D39DC0E3 7D2BAF1CF37B13E2069D6956105BD0E739499BDB
+  \curl -sSL https://get.rvm.io | bash -s head
+  append_to_zshrc "source $HOME/.rvm/bin" 1
 fi
 
-alias install_asdf_plugin=add_or_update_asdf_plugin
-add_or_update_asdf_plugin() {
-  local name="$1"
-  local url="$2"
+# alias install_asdf_plugin=add_or_update_asdf_plugin
+# add_or_update_asdf_plugin() {
+#   local name="$1"
+#   local url="$2"
 
-  if ! asdf plugin-list | grep -Fq "$name"; then
-    asdf plugin-add "$name" "$url"
-  else
-    asdf plugin-update "$name"
-  fi
-}
+#   if ! asdf plugin-list | grep -Fq "$name"; then
+#     asdf plugin-add "$name" "$url"
+#   else
+#     asdf plugin-update "$name"
+#   fi
+# }
 
-# shellcheck disable=SC1091
-. "$(brew --prefix asdf)/libexec/asdf.sh"
-add_or_update_asdf_plugin "ruby" "https://github.com/asdf-vm/asdf-ruby.git"
-add_or_update_asdf_plugin "nodejs" "https://github.com/asdf-vm/asdf-nodejs.git"
+# # shellcheck disable=SC1091
+# . "$(brew --prefix asdf)/libexec/asdf.sh"
+# add_or_update_asdf_plugin "ruby" "https://github.com/asdf-vm/asdf-ruby.git"
+# add_or_update_asdf_plugin "nodejs" "https://github.com/asdf-vm/asdf-nodejs.git"
 
-install_asdf_language() {
-  local language="$1"
-  local version
-  version="$(asdf list-all "$language" | grep -v "[a-z]" | tail -1)"
+# install_asdf_language() {
+#   local language="$1"
+#   local version
+#   version="$(asdf list-all "$language" | grep -v "[a-z]" | tail -1)"
 
-  if ! asdf list "$language" | grep -Fq "$version"; then
-    asdf install "$language" "$version"
-    asdf global "$language" "$version"
-  fi
-}
+#   if ! asdf list "$language" | grep -Fq "$version"; then
+#     asdf install "$language" "$version"
+#     asdf global "$language" "$version"
+#   fi
+# }
 
 fancy_echo "Installing latest Ruby ..."
-install_asdf_language "ruby"
+$HOME/.rvm/bin/rvm install ruby-3.3.4
+$HOME/.rvm/bin/rvm alias create default 3.3.4
+$HOME/.rvm/bin/rvm use 3.3.4
+$HOME/.rvm/bin/rvm gemset create rails7
+echo 'gem: --no-document' >> ~/.gemrc
+gem install rails -v 7.1
 gem update --system
 number_of_cores=$(sysctl -n hw.ncpu)
 bundle config --global jobs $((number_of_cores - 1))
 
-fancy_echo "Installing latest Node ..."
-install_asdf_language "nodejs"
+# fancy_echo "Installing latest Node ..."
+# install_asdf_language "nodejs"
 
-if [ -f "$HOME/.laptop.local" ]; then
-  fancy_echo "Running your customizations from ~/.laptop.local ..."
-  # shellcheck disable=SC1091
-  . "$HOME/.laptop.local"
-fi
+# if [ -f "$HOME/.laptop.local" ]; then
+#   fancy_echo "Running your customizations from ~/.laptop.local ..."
+#   # shellcheck disable=SC1091
+#   . "$HOME/.laptop.local"
+# fi
