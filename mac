@@ -6,6 +6,27 @@
 
 # shellcheck disable=SC3043
 
+# shellcheck disable=SC2154
+trap 'ret=$?; test $ret -ne 0 && printf "failed\n\n" >&2; exit $ret' EXIT
+
+set -e
+
+if [ ! -d "$HOME/.bin/" ]; then
+  mkdir "$HOME/.bin"
+fi
+
+if [ ! -f "$HOME/.zshrc" ]; then
+  touch "$HOME/.zshrc"
+fi
+
+if [ ! -f "$HOME/.zlogin" ]; then
+  touch "$HOME/.zlogin"
+fi
+
+if [ ! -f "$HOME/.zprofile" ]; then
+  touch "$HOME/.zprofile"
+fi
+
 fancy_echo() {
   local fmt="$1"; shift
 
@@ -38,26 +59,6 @@ append_to_zshrc() {
   source ~/.zshrc
 }
 
-# shellcheck disable=SC2154
-trap 'ret=$?; test $ret -ne 0 && printf "failed\n\n" >&2; exit $ret' EXIT
-
-set -e
-
-if [ ! -d "$HOME/.bin/" ]; then
-  mkdir "$HOME/.bin"
-fi
-
-if [ ! -f "$HOME/.zshrc" ]; then
-  touch "$HOME/.zshrc"
-fi
-
-if [ ! -f "$HOME/.zlogin" ]; then
-  touch "$HOME/.zlogin"
-fi
-
-if [ ! -f "$HOME/.zprofile" ]; then
-  touch "$HOME/.zprofile"
-fi
 
 # shellcheck disable=SC2016
 append_to_zshrc 'export PATH="$HOME/.bin:$PATH"'
