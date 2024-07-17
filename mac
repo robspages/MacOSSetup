@@ -51,6 +51,14 @@ if [ ! -f "$HOME/.zshrc" ]; then
   touch "$HOME/.zshrc"
 fi
 
+if [ ! -f "$HOME/.zlogin" ]; then
+  touch "$HOME/.zlogin"
+fi
+
+if [ ! -f "$HOME/.zprofile" ]; then
+  touch "$HOME/.zprofile"
+fi
+
 # shellcheck disable=SC2016
 append_to_zshrc 'export PATH="$HOME/.bin:$PATH"'
 
